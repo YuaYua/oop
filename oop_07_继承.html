@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>构造函数的继承</title>
+	</head>
+	<body>
+	</body>
+	<script type="text/javascript">
+		//父类
+		function Person(name,age){
+			this.name=name;
+			this.age=age;
+			this.say=function(){
+				console.log("hello")
+			}
+		}
+		Person.prototype.ppp=function(){
+			console.log("我是原型")
+		}
+		//子类
+		function Student(name,age,className){
+			//使用call继承父类，传对象和所有参数
+			Person.call(this,name,age);
+			this.className=className;
+		}
+		
+		
+		function Teacher(name,age,sex){
+			//使用apply继承，传对象和参数列表
+			Person.apply(this,arguments);
+			//Person的参数没有sex，需要自己定义
+			this.sex=sex;
+		}
+		//原型的继承
+		Student.prototype=Person.prototype;
+		//重写原型（覆盖），
+		//因为Student和Person的prototype使用同一地址
+		//会造成父类ppp内容改变
+		Student.prototype.ppp=function(){
+			console.log("我是student");
+		}
+		
+		var person = new Person("hah",24);
+		person.ppp();
+		console.log("---------------------")
+		
+		var stu=new Student("lck",18,"0919");
+		console.log(stu);
+		
+		stu.ppp()//call 和 apply只能实现构造函数的继承不能实现原型的继承
+		var tea=new Teacher("ooo",999,"man");
+		console.log(tea)
+		
+		
+		
+	</script>
+</html>

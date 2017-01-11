@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			#outer {
+				width: 100px;
+				height: 100px;
+				background-color: #00FFFF;
+			}
+			
+			div {
+				width: 300px;
+				height: 300px;
+				background: darkorange;
+			}
+			#cc{
+				background: red;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="outer">
+			<div class="index" id="cc">
+				1
+			</div>
+			<div class="index">
+				2
+			</div>
+			<div class="index">
+				3
+			</div>
+		</div>
+	</body>
+	<!--<script src="JQuery-3.1.1.min.js" type="text/javascript" charset="utf-8"></script>-->
+	<script type="text/javascript">
+		
+		function findClass(obj,className){
+			var resultArr=[];
+			if(obj.getElementsByClassName){
+				resulltArr=obj.getElementsByClassName(className);
+			}else{//旧版本ie没有getElementsByClassName,要做兼容
+				var arrs=obj.getElementsByTagName("*");
+				for(var i=0;i<arrs.length;i++){
+					//class不止一个
+//					<p class="cccc ppp"></p>
+//					"cccc ppp"=="ccc"
+//					"cccc"!="ccc"
+					//正则匹配单词边界\b或数组
+					//不能用语法糖形式，因为+在正则中有特殊含义
+					//新创建正则对象
+					var reg=new RegExp("\\b"+className+"\\b");
+					if(reg.test(arrs[i].className)){
+						resulltArr.push(arrs[i]);
+					}
+				}
+			}
+			return resulltArr;
+		}
+
+		function selectEl(arg) {
+			//var reg=/[^\s]+/g;
+			//var arr = arg.match(reg)
+			//console.log(arr)
+			//var strArr=arr.join(" ")
+			//console.log("("+strArr+")")//(div div)
+
+			//去除可能出现在开头和结尾的我不需要的空格
+			var reg = /^\s+|\s+$/g;
+			arg = arg.replace(reg, "");
+			//console.log("("+arg+")");//(div      div)
+			var reg = /\s+/g;
+			arg = arg.replace(reg, " ");
+			//console.log("("+arg+")");//(div div)
+			//"div div"
+			var elArr = arg.split(" ");
+			//console.log(elArr)
+			//存储父级数组，并初始化
+			var parentArr = [document];
+			for(var i = 0; i < elArr.length; i++) {
+				//i=0;
+				//elArr[0]=div
+				//i=1;
+				//elArr[1]=div
+
+				var childArr = [];
+				for(var j = 0; j < parentArr.length; j++) {
+					if(/^#/.test(elArr[i])){
+						//elArr[i]="#divs";
+						//去#
+						var ids=elArr[i].substring(1);
+						console.log(ids)
+						var el = document.getElementById(ids);
+						//去重
+						if(childArr.indexOf(el)==-1){
+							childArr.push(el);
+						}
+						
+					}else if(/^\./.test(elArr[i])){
+						var classNames=elArr[i].substring(1);
+						console.log(classNames)
+//						parentArr[j].getElementsByClassName(classNames);
+						var resultArr=findClass(parentArr[j],classNames);
+						for(var k=0;k<resulltArr.length;k++){
+							if(childArr.indexOf(resultArr[k])==-1){
+								childArr.push(resultArr[k]);
+							}
+								
+						}
+						
+					}else{
+						var resultArr = parentArr[j].getElementsByTagName(elArr[i]);
+						for(var k = 0; k < resultArr.length; k++) {
+							if(childArr.indexOf(resultArr[k])==-1){
+								childArr.push(resultArr[k])
+							}
+						}
+					}
+				}
+				parentArr = childArr;
+			}
+			return parentArr
+		}
+//		var arr=selectEl('   #     ');
+//		console.log(arr);
+		
+		function $(arg){
+			return new Jq(arg)
+		}
+		
+//		$(function(){})
+//		$("div")
+//		$(body)
+
+//      $(".divs").eq(1).on
+		
+		
+		function ready(fn){
+			if(window.addEventListener){
+				document.addEventListener("DOMContentLoaded",fn,false)
+			}else{//兼容IE
+				//创建一个新script
+				var os=document.createElement('script');
+				os.defer=true;
+				//script完成状态改变时执行
+				os.onreadystatechange=function(){
+					
+					if(os.readyState=="complete"){
+						fn();
+					}
+				}
+				var oh=document.getElementsByTagName("head")[0];
+				oh.appendChild(os)
+			}
+		}
+		
+		function Jq(arg){
+			this.elements=[];
+			if(typeof arg=="string"){
+				this.elements=selectEl(arg);
+			}else if(typeof arg=="function"){
+				ready(arg);
+			}else{
+				this.elements.push(arg)
+			}
+		}
+//		console.log($(".index"))
+		
+		//JQ:$(".index").eq(1)
+		//eq方法最终就是帮我们找到想要操作的
+		//DOM节点帮我们把这个DOM节点转化成一个新的jq对象并返回出去
+		Jq.prototype.eq=function(index){
+			//this.elements[index]
+			return $(this.elements[index]);
+		}
+		//测试
+//		console.log($(".index").eq(1))
+		
+		
+		//事件监听兼容IE
+		function addEvent(obj,eventName,fn){
+			if(obj.addEventListener){//现代浏览器
+				obj.addEventListener(eventName,fn,false);
+			}else{
+				obj.attachEvent("on"+eventName,fn)
+			}
+		}
+		
+		
+		
+		//click
+//		JQ:$(".index").click(function(){})
+		Jq.prototype.click=function(fn){
+			for(var i=0;i<this.elements.length;i++){
+				//很多事件都要兼容ie低版本
+				//用一个函数来兼容ie
+				addEvent(this.elements[i],"click",fn)
+//				this.elements[i].addEventListener("click",fn,false)
+			}
+		}
+		//测试
+//		$('.index').click(function(){
+//			console.log("clickSuc")
+//		})
+//		$('.index').eq(1).click(function(){
+//			console.log("clickSuc1")
+//		})
+		
+		
+		//on
+		//	JQ: $('.index').on("mouseup",function(){})
+		//可能有多个事件
+		//	JQ: $('.index').on("mouseup  mousedown",function(){})
+		Jq.prototype.on=function(eventStr,fn){
+			//因为可能要一次绑定多个事件
+			//所有需要根据传进来的事件字符串改成数组
+			var eventArr=eventStr.match(/[^\s]+/g);
+			console.log(eventArr)
+			//数组的元素都是我们要绑定上的事件，所以需要对我们的事件数组进行遍历绑定
+			for(var j=0;j<eventArr.length;j++){
+				//因为我们要给每个符合条件的DOM节点绑定事件
+				//所以需要对我们的DOM节点数组进行遍历来添加事件监听
+				//然后使用我们的addEvent兼容方法，
+				//通过两层循环结束就给我们所有的DOM节点
+				//绑定我们所有需要的事件
+				for(var i=0;i<this.elements.length;i++){
+					addEvent(this.elements[i],eventArr[j],fn);
+				}
+			}
+		}
+		//测试
+//		$('.index').on("mouseup",function(){
+//			console.log("onSuc")
+//		})
+//		$('.index').eq(1).on("mouseup",function(){
+//			console.log("onSuc")
+//		})
+		
+		
+		function setStyle(obj,styleName,styleValue){
+			var arr=["width","height"];
+			for(var i=0;i<arr.length;i++){
+				if(arr[i]==styleName){
+					if(typeof styleValue=="number"){
+						styleValue=styleValue+"px";
+					}
+				}
+			}
+			obj.style[styleName]=styleValue;
+		}
+		
+		function getStyle(obj,styleName){
+			if(window.getComputedStyle){
+//				console.log(getComputedStyle(obj,null))
+				return getComputedStyle(obj,null)[styleName];
+			}else{
+				return obj.currentStyle(styleName);
+			}
+		}
+		
+		
+//		$(".index").css({
+//			background:"red",
+//			width:"100px",
+//			height:100
+//		});//使用for in 来判断
+		Jq.prototype.css=function(){
+			if(arguments.length==1){
+				if(typeof arguments[0]=="string"){
+					return getStyle(this.elements[0],arguments[0]);
+				}else{
+					for(var keys in arguments[0]){
+						for(var i=0;i<this.elements.length;i++){
+							setStyle(this.elements[i],keys,arguments[0][keys]);
+//							this.elements[i].style[keys]=arguments[0][keys];
+						}
+					}
+				}
+			}else if(arguments.length==2){
+				for(var i=0;i<this.elements.length;i++){
+					setStyle(this.elements[i],arguments[0],arguments[1]);
+				}
+			}
+		}
+		
+		console.log($(".index").css("background"))
+//		$(".index").css("height",100);
+//		$(".index").css({
+//			background:"red",
+//			width:"100px",
+//			height:100
+//		});
+		
+		
+
+	</script>
+
+</html>

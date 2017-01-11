@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+	</body>
+	<script type="text/javascript">
+		function Person(name,age){
+			this.name=name;
+			this.age=age;
+			//私有的
+			var sex="man";
+			this.say=function(){
+				console.log("hahahaha");
+			}
+			//对私有的进行保护
+			this.setSex=function(sexs){
+				if(sexs=="man"||sexs=="women"){
+					sex=sexs;
+				}
+			}
+			
+			this.getSex=function(){
+				return sex;
+			}
+			
+			var talk=function(){
+				console.log("我是talk");
+			}
+		}
+		var person=new Person("lck",99);
+//		console.log(person)
+//		console.log(person.sex);
+//		person.talk();
+		person.age=3;
+		person.setSex("women");
+		console.log(person.getSex());
+	</script>
+</html>

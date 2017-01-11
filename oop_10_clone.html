@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+	</body>
+	<script type="text/javascript">
+		var obj={
+			name:"lv"
+		}
+		//stringify()用于从一个对象解析出字符串
+		var str=JSON.stringify(obj);
+		console.log(str);
+		console.log(typeof str);
+		//parse用于从一个字符串中解析出json对象
+		var obj1=JSON.parse(str);
+		console.log(obj1);
+		console.log(typeof obj1);
+		//不支持低版本IE浏览器
+		
+	</script>
+</html>

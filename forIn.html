@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+	</body>
+	<script type="text/javascript">
+		var obj = {
+			name: "lck",
+			password: 123
+		}
+		var json = {
+			"name": "gailun",
+			"password": "德玛西亚"
+		}
+
+		var str = '{{"name":"lck","password":18,"list":[{"user":[{},{},{}]},{"user":[{},{},{}]},{"user":[{},{},{}]}]}]';
+		var arrStr = '[{"name":"gailun"},{"name":"jinx"},{"name":"janna"}]';
+		var obj = JSON.parse(arrStr);
+		console.log(obj);
+		var obj = {
+			name: "lck",
+			password: 123
+		}
+		console.log(obj.name)//	结果：lck
+		var str="name";
+		console.log(obj[str])//	结果：lck
+		
+		for(var keys in obj){
+			console.log(obj.keys)//	undefined 不能使用obj.keys在for in循环里
+			console.log(keys+":"+obj[keys]);
+		}
+	</script>
+
+</html>

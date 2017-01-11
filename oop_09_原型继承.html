@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+	</body>
+	<script type="text/javascript">
+		function Person(){
+			
+		}
+		Person.prototype.ccc=function(){
+			console.log("我是父类")
+		}
+		
+		function Student(){
+			
+		}
+		//防止子类修改原型覆盖父级原型
+		//①创建一个新的构造函数（中转站）
+		function Lin(){}
+		//②Lin继承Person的原型
+		Lin.prototype=Person.prototype;
+		//③创建一个新的地址
+		var proto=new Lin();
+		//④子类的原型指向Lin（中转站）的地址
+		Student.prototype=proto;//此时Student的构造函数是Person
+		console.log(Student.prototype.constructor);
+		Student.prototype.constructor=Student;//改回Student本身的构造函数
+		console.log(Student.prototype.constructor);
+		
+		Student.prototype.ccc=function(){
+			console.log("我是子类");
+		}
+		var person=new Person();
+		person.ccc();
+		
+		
+		var stu=new Student();
+		stu.ccc();
+		
+		
+	</script>
+</html>

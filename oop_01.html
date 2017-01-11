@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>对象</title>
+	</head>
+
+	<body>
+	</body>
+	<script type="text/javascript">
+		var obj=new Object();
+		obj.name="lck";
+		console.log(obj.name);
+		obj.say=function(){
+			console.log("hello world")
+		}
+		obj.say();
+		
+		var obj1={
+			age:18,
+			sex:"man"
+		};
+		obj1.name="tqq";
+		console.log(obj1)
+		
+		var str="hello";
+		str.name="world";
+		console.log(str.name);//undefined,str是一个字符串，不是对象
+		
+		var strObj=new String("hhhhh");
+		strObj.name="ooooo";
+		console.log(strObj);//对象类型->通过new创建的都是对象
+		
+	</script>
+
+</html>

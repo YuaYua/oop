@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>构造函数练习</title>
+	</head>
+	<body>
+	</body>
+	<script type="text/javascript">
+		function Teacher(name,title,course,age){
+			this.name=name;
+			this.title=title;
+			this.course=course;
+			this.age=age
+			this.teach=function(){
+				this.ages()
+				console.log("我教"+this.course)
+			}
+			this.ages=function(){
+				console.log("我今年"+this.age)
+			}
+		}
+		var teacher1=new Teacher('zhang','教授','语文',68);
+		console.log(teacher1)
+		teacher1.teach()
+	</script>
+</html>

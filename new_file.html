@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>获取变量的type</title>
+	</head>
+
+	<body>
+	</body>
+	<script type="text/javascript">
+		function type(obj) {
+			var o = {};
+			//toLowerCase:小写
+			//slice(8,-1)：从第八位截取到最后一位
+			//object对象的prototype的toString（）方法会返回一个表示对象本身类型的字符串
+			return o.toString.call(obj).slice(8, -1).toLowerCase()
+		}
+		console.log(type([1, 2, 3]));
+		var arr = [{
+			name: "lck",
+			phone: "1323423"
+		}, {
+			name: "tangs",
+			phone: "1343454"
+		}]
+
+		function Person() {
+			this.name = name;
+			this.userArr = [{
+				name: "lck",
+				phone: "1323423"
+			}, {
+				name: "tangs",
+				phone: "1343454"
+			}]
+		}
+		Person.prototype.say = function() {
+			console.log(this.name)
+		}
+
+		Person.prototype.select = function() {
+			//联系人们
+		}
+		Person.prototype.update = function() {
+			//联系人们
+		}
+	</script>
+
+</html>

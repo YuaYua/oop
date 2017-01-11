@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>原型练习</title>
+	</head>
+	<body>
+	</body>
+	<script type="text/javascript">
+		function Dog(){}
+		Dog.prototype={
+			name:"hhh",
+			age:12,
+		}
+		Dog.prototype.talk=function(){
+			console.log("wang")
+		}
+		var dog=new Dog()
+		console.log(dog)
+		
+	</script>
+</html>

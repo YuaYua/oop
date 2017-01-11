@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			body {
+				position: relative;
+			}
+			span {
+				display: block;
+				float: left;
+				margin-left: 10px;
+				line-height: 30px;
+			}
+			#addLinkman {
+				position: absolute;
+				width: 200px;
+				height: 100px;
+				background-color: royalblue;
+				margin: 50px auto;
+				display: none;
+			}
+			
+			ul {
+				list-style-type: none;
+				padding: 0;
+			}
+			
+			li {
+				height: 30px;
+			}
+			
+			li>span {
+				display: block;
+				float: left;
+				margin-left: 10px;
+				line-height: 30px;
+			}
+			
+			.name {
+				width: 50px;
+				height: 30px;
+				background-color: cadetblue;
+			}
+			
+			.phone {
+				width: 100px;
+				height: 30px;
+				background-color: oldlace;
+			}
+			
+			#findLinkdiv,#result {
+				width: 200px;
+				height: 70px;
+				background-color: aquamarine;
+				margin: 50px auto;
+				position: absolute;
+				text-align: center;
+				padding-top: 10px;
+				display: none;
+			}
+			
+			#findName {
+				display: block;
+				margin: 0 auto;
+			}
+			#modLinkdiv{
+				width: 200px;
+				height: 100px;
+				background-color: aqua;
+				display: none;
+			}
+		</style>
+	</head>
+
+	<body>
+		<button id="addLink">增加联系人</button><button id="findLink">查找联系人</button>
+		<!--增加联系人界面-->
+		<div id="addLinkman">
+			姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名<input type="text" id="linkMan" value="" /><br /> 联系方式
+			<input type="text" id="phoneNumber" value="" /><br />
+			<button id="yes">确定</button><button id="no">取消</button>
+		</div>
+		<!--查找联系人-->
+		<div id="findLinkdiv">
+			姓名<input type="text" id="findName" value="" />
+			<button id="findYes">确定</button>
+		</div>
+		<div id="result">
+			<span id="resName"></span><span id="resPhone"></span>
+			<button id="resYes">确定</button>
+		</div>
+		<!--联系人界面-->
+		<ul>
+			<!--<li>
+				<span class="name">张三</span> <span class="phone">14557575</span>
+				<button class="delLink">删除</button><button class="modLink">修改</button>
+			</li>-->
+
+		</ul>
+		<!--修改-->
+		<div id="modLinkdiv">
+			姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名<input type="text" id="modLinkman" value="" /><br /> 联系方式
+			<input type="text" id="modLinkphone" value="" /><br />
+			<button id="modyes">确定</button><button id="modno">取消</button>
+		</div>
+	</body>
+	<script type="text/javascript">
+		//	var body=document.getElementsByTagName('body')[0];
+		var addLink = document.getElementById('addLink');
+		var findLink=document.getElementById('findLink')
+		var addLinkman = document.getElementById('addLinkman');
+		var ul = document.getElementsByTagName('ul')[0];
+		var linkMan = document.getElementById('linkMan');
+		var phoneNumber = document.getElementById('phoneNumber');
+		var yes = document.getElementById('yes');
+		var no = document.getElementById('no');
+		var findLinkdiv=document.getElementById('findLinkdiv');
+		var findYes=document.getElementById('findYes')
+		var findName=document.getElementById('findName')
+		var result=document.getElementById('result');
+		var resName=document.getElementById('resName');
+		var resPhone=document.getElementById('resPhone');
+		var resYes=document.getElementById('resYes');
+		var modLinkdiv=document.getElementById('modLinkdiv');
+		var modLinkman=document.getElementById('modLinkman');
+		var modLinkphone=document.getElementById('modLinkphone');
+		var modyes=document.getElementById('modyes');
+		var modno=document.getElementById('modno');
+
+		var i = 0;
+
+		function Linkman() {
+			this.userArr = [
+				//				{name:"张三",phone:"14557575"},
+				//				{name:"lis",phone:"1sr575"},
+				//				{name:"wef",phone:"14555sfef75"},
+				//				{name:"dfsf",phone:"14sef7575"},
+				//				{name:"weg",phone:"1455qwg575"},	
+			]
+		}
+		//增加联系人
+		Linkman.prototype.add = function(index) {
+				var li = document.createElement('li');
+				var nameSpan = document.createElement('span');
+				nameSpan.className = "name"
+				var phoneSpan = document.createElement('span');
+				phoneSpan.className = "phone"
+				var btn1 = document.createElement('button');
+				var btn2 = document.createElement('button');
+				nameSpan.innerText = this.userArr[index].name;
+				phoneSpan.innerText = this.userArr[index].phone;
+				btn1.innerText = "删除";
+				btn1.className = "delLink";
+				btn2.innerText = "修改";
+				btn2.className = "modLink";
+				li.appendChild(nameSpan)
+				li.appendChild(phoneSpan)
+				li.appendChild(btn1);
+				li.appendChild(btn2);
+				ul.appendChild(li);
+				console.log(a)
+				//删除
+				var delLink = document.getElementsByClassName("delLink");
+				for(var i = 0; i < delLink.length; i++) {
+					delLink[i].index = i;
+					delLink[i].onclick = function() {
+						var index = this.index;
+						console.log(index);
+						ul.removeChild(this.parentNode);
+						a.del(index);
+					}
+				}
+				//修改
+				var modLink = document.getElementsByClassName("modLink");
+				for(var i = 0; i < modLink.length; i++) {
+					modLink[i].index = i;
+					modLink[i].onclick = function() {
+						modLinkdiv.style.display='block';
+						var index = this.index;
+						a.mod(index);
+						
+					}
+				}
+			}
+		//修改联系人
+		Linkman.prototype.mod=function(index){
+			var num=index;
+			modLinkman.value=this.userArr[index].name;
+			modLinkphone.value=this.userArr[index].phone;
+			var obj={};
+			var lis=document.querySelectorAll('li');
+			console.log(lis)
+			modyes.onclick=function(){
+				var span1=lis[index].getElementsByTagName('span')[0];
+				var span2=lis[index].getElementsByTagName('span')[1];
+				
+				obj.name=modLinkman.value;
+				obj.phone=modLinkphone.value;
+				//修改数组
+				a.userArr[index]=obj;
+				span1.innerText=obj.name;
+				span2.innerText=obj.phone;
+				console.log(a);
+				modLinkdiv.style.display='none';
+				console.log(obj)
+				
+			}
+			
+		}
+		//删除联系人
+		Linkman.prototype.del = function(index) {
+			this.userArr.splice(index, 1);
+			console.log(this.userArr)
+			return index--;
+		}
+		//查找联系人
+		Linkman.prototype.find=function(str){
+			for(var i=0;i<this.userArr.length;i++){
+				console.log(str)
+				if(this.userArr[i].name==str){
+					result.style.display='block';
+//					resName.style.display='block';
+					resName.innerText=this.userArr[i].name;
+//					resPhone.style.display='block';
+					resPhone.innerText=this.userArr[i].phone;
+					break
+				}
+				if(i==this.userArr.length-1&&this.userArr[this.userArr.length-1].name!=str){
+					alert('没这个人')
+				}
+			}
+		}
+		var a = new Linkman();
+		addLink.onclick = function() {
+			//创建一个空对象
+			var obj = {}
+			addLinkman.style.display = "block";
+			//获取input内容给obj
+			yes.onclick = function() {
+				//给对象添加属性
+				obj.name = linkMan.value;
+				obj.phone = phoneNumber.value;
+				linkMan.value = '';
+				phoneNumber.value = ''
+				addLinkman.style.display = "none";
+				//添加的数组
+				a.userArr.push(obj);
+				//添加行为
+				a.add(i)
+				i++;
+			}
+		}
+		findLink.onclick=function(){
+			findLinkdiv.style.display="block";
+			var obj={}
+			findYes.onclick=function(){
+				findLinkdiv.style.display="none";
+				obj.name=findName.value;
+				
+				findName.value="";
+				
+				a.find(obj.name)
+			}
+		}
+		resYes.onclick=function(){
+			result.style.display='none';
+		}
+		no.onclick=function(){
+			addLinkman.style.display='none';
+			linkMan.value = '';
+				phoneNumber.value = ''
+		}
+		modno.onclick=function(){
+			modLinkdiv.style.display='none';
+		}
+	</script>
+
+</html>

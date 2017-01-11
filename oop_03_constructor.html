@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>构造函数</title>
+	</head>
+	<body>
+	</body>
+	<script type="text/javascript">
+		function Student(name,sex){
+			//构造函数不用在函数内部创建对象，通过 ②来创建
+			this.name=name;
+			this.sex=sex;
+			this.info=function(){
+				this.say()
+				console.log("我叫"+this.name+"，性别"+this.sex)
+			}
+			this.say=function(){
+				console.log('hi,firends')
+			}
+		}
+		//②构造函数通过new创建对象
+		var stu=new Student('zhangsan','nan');
+		console.log(stu);
+		stu.info();
+		var stu2=new Student('lisi','nan');
+		console.log(stu2);
+		stu2.info();
+	</script>
+</html>

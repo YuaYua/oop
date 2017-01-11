@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			#ccc{
+				width: 100px;
+				height: 100px;
+				background-color: chartreuse;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="outer">
+			<div id="ccc">
+				<button id="btn">按钮</button>
+			</div>
+		</div>
+		<!--<div id="ccc">
+			<button id="btn">按钮</button>
+		</div>-->
+	</body>
+	<script type="text/javascript">
+		document.getElementById('outer').addEventListener("click",function(e){
+			console.log(e.target)
+			console.log("outer")
+//			e.cancelBubble=true;
+		},true)
+		document.getElementById('ccc').addEventListener("click",function(e){
+			console.log(e.target)
+			console.log("ccc")
+			e.stopPropagation()
+		},true)
+		document.getElementById('btn').addEventListener('click',function(e){
+			console.log(e.target)
+			console.log('btn');
+//			e.cancelBubble=true;
+			//阻止冒泡
+//			e.stopPropagation()
+		},true)
+		document.addEventListener("click",function(e){
+			console.log(e.target)
+			console.log('doc')
+		},true)
+	</script>
+
+</html>

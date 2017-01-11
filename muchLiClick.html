@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+		*{
+			margin: 0;
+			padding: 0;
+		}
+			ul{
+				list-style-type: none;
+			}
+		</style>
+	</head>
+	<body>
+		<!--<ul>
+			<li>1</li>
+			<li>2</li>
+			<li>3</li>
+			<li>4</li>
+			<li>5</li>
+			<li>6</li>
+			<li>7</li>
+			<li>8</li>
+			<li>9</li>
+			<li>10</li>
+		</ul>-->
+		<input type="text" id="name"/>
+		<input type="text" id="phone"/>
+		<input type="button" id="insert" value="增加"/>
+		
+		<input type="button" id="update" value="修改"/>
+		<input type="button" id="select" value="查找"/>
+		<!--<input type="button" id="name"/>-->
+		<div id="userList">
+			
+		</div>
+	</body>
+	<script src="JQuery-3.1.1.min.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+//		var ul=document.getElementsByTagName('ul')[0];
+//		ul.addEventListener("click",function(e){
+//			var ev=e||event;
+////			console.log(ev.target)
+//			ev.target.innerText="111"
+//			ev.target.cancelBubble="true"
+//		},false);
+		var mail=new Mail();
+		var namees=document.getElementById('name');
+		var phone=document.getElementById('phone');
+		var userList=document.getElementById('userList')
+		
+		
+		var i=0;
+		document.addEventListener("click",function(e){
+			var ev=e||event;
+			var names=namees.value;
+			var phones=phone.value;
+			console.log(names,phones)
+			if(ev.target.id=="insert"){
+				console.log("我是Insert")
+				mail.insert(names,phones);
+				
+				mail.select();
+//				i++;
+			}else if(ev.target.id=="update"){
+				mail.update(names,phones);
+				mail.select();
+			}else if(ev.target.id=="select"){
+				mail.selectByName(names);
+			}
+		},false);
+		
+		function Mail(){
+			this.userList=[]
+		}
+		Mail.prototype.insert=function(name,phone){
+			var obj={};
+			obj.name=name;
+			obj.phone=phone;
+			this.userList.push(obj);
+			console.log(this.userList)
+		}
+		Mail.prototype.delete=function(){
+			
+		}
+		Mail.prototype.update=function(name,phone){
+			for(var i=0;i<this.userList.length;i++){
+				if(this.userList[i].name==name){
+					this.userList[i].phone=phone;
+				}
+			}
+			console.log(this.userList)
+		}
+		Mail.prototype.select=function(){
+			userList.innerHTML=""
+			for(var i=0;i<this.userList.length;i++){
+				var p=document.createElement('p');
+				p.innerHTML=this.userList[i].name+":"+this.userList[i].phone;
+				userList.appendChild(p)
+//				this.userList[i]
+			}
+		}
+		Mail.prototype.selectByName=function(name){
+			userList.innerHTML="";
+			for(var i=0;i<this.userList.length;i++){
+				if(this.userList[i].name==name){
+					var p=document.createElement('p');
+					p.innerHTML=this.userList[i].name+":"+this.userList[i].phone;
+					userList.appendChild(p);
+					break;
+				}
+			}
+		}
+		
+		
+	</script>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+	</body>
+	<script type="text/javascript">
+		var obj={
+			name:'oo',
+			age:'18'
+			
+		}
+		obj.say=function(){
+			console.log('hh')
+		}
+//		console.log(obj)
+		
+		function Car(name){
+			var obj={};
+			obj.name=name;
+			obj.run=function(){
+				console.log('我是'+obj.name)
+			}
+			return obj;
+		}
+		var car=new Car('bmw')
+//		car.run();
+
+
+
+		function Animal(name,age){
+			this.name=name;
+			this.age=age;
+		}
+		function Cat(name,age){
+			Animal.call(this,name,age);
+		}
+		function Dog(name,age){
+			Animal.apply(this,arguments);
+		}
+		var cat1=new Cat('mm',12);
+		console.log(cat1.name)
+		var dog1=new Dog('ww',15);
+		console.log(dog1.age)
+		
+		
+		
+		function Person(name,age){
+			this.name=name;
+			this.age=age;
+			this.work=function(){
+				console.log("我叫"+this.name+",今年"+this.age)
+			}
+		}
+		Person.prototype.say=function(){
+			console.log("我是父类")
+		}	
+		function Lin(){}
+		Lin.prototype=Person.prototype;
+		var proto=new Lin();
+		
+		function Student(){}
+		Student.prototype=proto
+		Student.prototype.constructor=Student;
+		
+		var person=new Person("hh",15);
+		person.say();
+		var stu=new Student();
+		stu.say();
+		
+		
+		
+		
+		
+	</script>
+</html>

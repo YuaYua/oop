@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>原型</title>
+	</head>
+
+	<body>
+	</body>
+	<script type="text/javascript">
+		function Dog() {}
+		//不能在前面写原型追加操作，因为追加操作会被原型替代
+//		Dog.prototype.talk=function(){
+//			console.log("hahha")
+//		}
+		Dog.prototype = {
+			name : "大黄",
+			age : 13,
+			say:function(){
+				console.log("汪")
+			}
+		}
+		//原型追加操作
+		Dog.prototype.sex="nan";
+		//原型追加操作，如果在对原型的操作中既需要使用追加形式又要使用覆盖形式，
+		//一定要将追加形式写在覆盖形式后，否则会造成之前写的追加内容被替换，无法使用
+		Dog.prototype.talk=function(){
+			console.log("hahha")
+		}
+		var dahuang = new Dog()
+		console.log(dahuang.sex)
+		dahuang.say()
+		dahuang.talk()
+		
+		//练习
+		function Student(name,age){
+			this.name=name;
+			this.age=age;
+		}
+		Student.prototype.say=function(){
+			console.log("hahah")
+		}
+		Student.prototype.info=function(){
+			console.log("我叫"+this.name+",今年"+this.age)
+		}
+		var student=new Student("lck",18);
+		student.info()
+		
+		
+	</script>
+
+</html>
